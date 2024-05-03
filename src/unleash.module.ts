@@ -19,7 +19,7 @@ export class UnleashModule {
           headers: {
             'UNLEASH-INSTANCEID': config.instanceId,
             'UNLEASH-APPNAME': config.appName,
-            ...config.http.headers,
+            ...config.http?.headers,
           },
         }),
       ],
