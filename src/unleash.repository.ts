@@ -1,5 +1,5 @@
-import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
+import { Injectable, Logger } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
 import { firstValueFrom } from 'rxjs';
 import { Experiment } from './interfaces/unleash.response';

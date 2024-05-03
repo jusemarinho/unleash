@@ -1,8 +1,8 @@
+import { HttpModule } from '@nestjs/axios';
 import { DynamicModule, Logger } from '@nestjs/common';
 import { IUnleashConfigurations } from './interfaces/unleash.interface';
-import { HttpModule } from '@nestjs/axios';
-import { UnleashService } from './unleash.service';
 import { UnleashRepository } from './unleash.repository';
+import { UnleashService } from './unleash.service';
 
 export class UnleashModule {
   static forRoot(config: IUnleashConfigurations): DynamicModule {
