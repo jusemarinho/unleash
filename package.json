@@ -1,6 +1,6 @@
 {
   "name": "@josemarinho/unleash",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "NestJS library integrate with Unleash",
   "author": "José Paulo Marinho <josepaulomarinho2@gmail.com>",
   "license": "MIT",

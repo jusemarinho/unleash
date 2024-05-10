@@ -6,10 +6,6 @@ import { UnleashService } from './unleash.service';
 
 export class UnleashModule {
   static forRoot(config: IUnleashConfigurations): DynamicModule {
-    const logger = new Logger('UnleashModule');
-
-    logger.log('UnleashModule dependencies initialized');
-
     return {
       module: UnleashModule,
       global: !config.global ? true : false,
