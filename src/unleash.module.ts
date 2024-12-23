@@ -1,5 +1,5 @@
 import { HttpModule } from '@nestjs/axios';
-import { DynamicModule, Logger } from '@nestjs/common';
+import { DynamicModule } from '@nestjs/common';
 import { IUnleashConfigurations } from './interfaces/unleash.interface';
 import { UnleashRepository } from './unleash.repository';
 import { UnleashService } from './unleash.service';
