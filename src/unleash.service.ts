@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { UnleashRepository } from './unleash.repository';
+import { Inject, Injectable } from '@nestjs/common';
+import { Unleash } from 'unleash-client';
 
 @Injectable()
 export class UnleashService {
-  constructor(private readonly unleashRepository: UnleashRepository) {}
+  constructor(@Inject('UNLEASH_CLIENT') private readonly unleashClient: Unleash) {}
 
   async isEnabled(key: string): Promise<boolean> {
-    return (await this.unleashRepository.get(key)).data.enabled;
+    return (await this.unleashClient.isEnabled(key));
   }
 }

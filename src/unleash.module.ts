@@ -1,26 +1,25 @@
-import { HttpModule } from '@nestjs/axios';
 import { DynamicModule } from '@nestjs/common';
 import { IUnleashConfigurations } from './interfaces/unleash.interface';
-import { UnleashRepository } from './unleash.repository';
 import { UnleashService } from './unleash.service';
+import { initialize, Unleash } from 'unleash-client';
 
 export class UnleashModule {
   static forRoot(config: IUnleashConfigurations): DynamicModule {
+    const unleashProvider = {
+      provide: 'UNLEASH_CLIENT',
+      useFactory: (): Unleash => {
+        return initialize({
+          url: config.url,
+          appName: config.appName,
+          customHeaders: { Authorization: config.apiKey },
+        });
+      },
+    };
     return {
       module: UnleashModule,
       global: !config.global ? true : false,
-      imports: [
-        HttpModule.register({
-          baseURL: config.url,
-          headers: {
-            'UNLEASH-INSTANCEID': config.instanceId,
-            'UNLEASH-APPNAME': config.appName,
-            ...config.http?.headers,
-          },
-        }),
-      ],
-      providers: [UnleashService, UnleashRepository],
-      exports: [UnleashService],
+      providers: [unleashProvider, UnleashService],
+      exports: [unleashProvider, UnleashService],
     };
   }
 }
