@@ -45,13 +45,8 @@ import { UnleashModule } from '@josemarinho/unleash';
   imports: [
     UnleashModule.forRoot({
       appName: 'app-name',
-      url: 'unleash-url',
-      instanceId: 'instance-id',
-      http: {
-        headers: {
-          Authorization: 'UNLEASH_API_TOKEN',
-        },
-      },
+      url: 'url-api',
+      apiKey: '<UNLEASH_API_TOKEN>'
     }),
   ],
   ...
