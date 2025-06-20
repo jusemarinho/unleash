@@ -45,19 +45,53 @@ import { UnleashModule } from '@josemarinho/unleash';
   imports: [
     UnleashModule.forRoot({
       appName: 'app-name',
-      url: 'url-api',
-      apiKey: '<UNLEASH_API_TOKEN>'
+      url: 'https://unleash-api-url.com',
+      apiKey: 'your-api-key',
+      strategies: [new ActiveForUserWithEmailStrategy()], // Your custom strategy
+      bootstrap: {
+        data: [
+          {
+            name: 'feature-x',
+            enabled: true,
+            strategies: [],
+          },
+        ],
+        disableBootstrapOverride: true,
+      },
+      global: false, // default is true
     }),
   ],
-  ...
 })
 export class AppModule {}
 
 ```
 
+## Custom Strategies
+
+You can define and use custom strategies by extending the Strategy class from unleash-client.
+Example from Docs Unleash Client - https://docs.getunleash.io/reference/sdks/node#custom-strategies
+
+``` ts
+
+import { initialize, Strategy } from 'unleash-client';
+class ActiveForUserWithEmailStrategy extends Strategy {
+  constructor() {
+    super('ActiveForUserWithEmail');
+  }
+
+  isEnabled(parameters, context) {
+    return parameters.emails.indexOf(context.email) !== -1;
+  }
+}
+
+```
+
+
 ## Utilization
 
-For get feature toggles from unleash, its necessary inject `UnleashService`
+To retrieve feature toggles from Unleash, simply inject the UnleashService into your service or controller and use the available methods.
+
+### ✅ Checking if a feature is enabled
 
 ```ts
 import { Injectable } from '@nestjs/common';
@@ -67,11 +101,23 @@ import { UnleashService } from '@josemarinho/unleash';
 export class AppService {
   constructor(private readonly unleash: UnleashService) {}
 
-  async get(key: string) {
-    return await this.unleash.isEnabled(key);
+  isFeatureEnabled(toggleName: string): boolean {
+    return this.unleash.isEnabled(toggleName);
   }
 }
-
 ```
+
+### 🔍 Accessing the Unleash client directly (optional)
+
+If you need to access advanced methods like getVariant, you can retrieve the internal Unleash client instance:
+
+```ts
+getFeatureVariant(toggleName: string) {
+  const client = this.unleash.getClient();
+  return client.getVariant(toggleName);
+}
+```
+
+> The UnleashService also handles cleanup automatically on application shutdown to avoid memory leaks.
 
 After your app it's ready to running.

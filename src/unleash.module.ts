@@ -12,12 +12,14 @@ export class UnleashModule {
           url: config.url,
           appName: config.appName,
           customHeaders: { Authorization: config.apiKey },
+          strategies: [...(config.strategies || [])],
+          bootstrap: config.bootstrap
         });
       },
     };
     return {
       module: UnleashModule,
-      global: !config.global ? true : false,
+      global: config.global ?? true,
       providers: [unleashProvider, UnleashService],
       exports: [unleashProvider, UnleashService],
     };
